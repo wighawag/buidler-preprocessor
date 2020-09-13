@@ -1,30 +1,22 @@
-import {assert} from 'chai';
-
-import {ExampleBuidlerRuntimeEnvironmentField} from '../src/ExampleBuidlerRuntimeEnvironmentField';
-
+import {expect} from 'chai';
 import {useEnvironment} from './helpers';
+import fs from 'fs';
 
-describe('Integration tests examples', function () {
-  describe('Buidler Runtime Environment extension', function () {
-    useEnvironment(__dirname + '/buidler-project');
+describe('Buidler compile task', function () {
+  useEnvironment(__dirname + '/buidler-project');
 
-    it('It should add the example field', function () {
-      assert.instanceOf(this.env.example, ExampleBuidlerRuntimeEnvironmentField);
-    });
-
-    it('The example filed should say hello', function () {
-      assert.equal(this.env.example.sayHello(), 'hello');
-    });
+  it('It should not preprocess Test.sol', async function () {
+    await this.env.run('compile', {force: true});
+    const solcInput = JSON.parse(fs.readFileSync('cache/solc-input.json').toString());
+    expect(solcInput.sources['src/Test.sol'].content).to.equal(fs.readFileSync('src/Test.sol').toString());
   });
 });
 
-describe('Unit tests examples', function () {
-  describe('ExampleBuidlerRuntimeEnvironmentField', function () {
-    describe('sayHello', function () {
-      it('Should say hello', function () {
-        const field = new ExampleBuidlerRuntimeEnvironmentField();
-        assert.equal(field.sayHello(), 'hello');
-      });
-    });
+describe('Buidler compile task on other', function () {
+  useEnvironment(__dirname + '/buidler-project', 'other');
+  it('It should preprocess Test.sol on rinkeby', async function () {
+    await this.env.run('compile', {force: true});
+    const solcInput = JSON.parse(fs.readFileSync('cache/solc-input.json').toString());
+    expect(solcInput.sources['src/Test.sol'].content).to.not.equal(fs.readFileSync('src/Test.sol').toString());
   });
 });
