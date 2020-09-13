@@ -1,8 +1,8 @@
 {
-  "name": "wighawag-buidler-ts-plugin-boilerplate",
+  "name": "buidler-preprocessor",
   "version": "0.0.1",
-  "description": "Buidler TypeScript plugin boilerplate",
-  "repository": "github:wighawag/wighawag-buidler-ts-plugin-boilerplate",
+  "description": "buidler plugin that can preprocess contracts without writing to filesystem",
+  "repository": "github:wighawag/buidler-preprocessor",
   "author": "Ronan Sandford",
   "license": "MIT",
   "main": "dist/src/index.js",
@@ -11,12 +11,13 @@
     "ethereum",
     "smart-contracts",
     "buidler",
-    "buidler-plugin"
+    "buidler-plugin",
+    "preprocessor"
   ],
   "scripts": {
     "prepare": "node ./.setup.js",
     "lint:fix": "eslint --fix .",
-    "lint": "eslint .",
+    "lint": "eslint **/*.ts",
     "test": "mocha --exit",
     "build": "tsc",
     "watch": "tsc -w"

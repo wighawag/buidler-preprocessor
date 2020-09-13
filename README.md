@@ -1,9 +1,10 @@
 [![buidler](https://buidler.dev/buidler-plugin-badge.svg?1)](https://buidler.dev)
-# wighawag-buidler-ts-plugin-boilerplate
+
+# buidler-preprocessor
 
 _A one line description of the plugin_
 
-[Buidler](http://getbuidler.com) plugin example. 
+[Buidler](http://getbuidler.com) plugin example.
 
 ## What
 
@@ -16,13 +17,13 @@ This plugin is just an example
 <_A step-by-step guide on how to install the plugin_>
 
 ```bash
-npm install wighawag-buidler-ts-plugin-boilerplate
+npm install buidler-preprocessor
 ```
 
 And add the following statement to your `buidler.config.js`:
 
 ```js
-usePlugin("wighawag-buidler-ts-plugin-boilerplate");
+usePlugin('buidler-preprocessor');
 ```
 
 ## Required plugins
@@ -33,15 +34,16 @@ Nothing required
 
 ## Tasks
 
-<_A description of each task added by this plugin. If it just overrides internal 
+<_A description of each task added by this plugin. If it just overrides internal
 tasks, this may not be needed_>
 
 This plugin creates no additional tasks.
 <_or_>
 This plugin adds the _example_ task to Buidler:
+
 ```
 output of npx buidler help example
-``` 
+```
 
 ## Environment extensions
 
@@ -54,7 +56,7 @@ whose type is `ExampleBuidlerRuntimeEnvironmentField`.
 
 <_A description of each extension to the BuidlerConfig or to its fields_>
 
-This plugin extends the `BuidlerConfig`'s `ProjectPaths` object with an optional 
+This plugin extends the `BuidlerConfig`'s `ProjectPaths` object with an optional
 `newPath` field.
 
 This is an example of how to set it:
@@ -62,8 +64,8 @@ This is an example of how to set it:
 ```js
 module.exports = {
   paths: {
-    newPath: "./new-path"
-  }
+    newPath: './new-path',
+  },
 };
 ```
 
@@ -73,12 +75,12 @@ module.exports = {
 
 There are no additional steps you need to take for this plugin to work.
 
-Install it and access ethers through the Buidler Runtime Environment anywhere 
+Install it and access ethers through the Buidler Runtime Environment anywhere
 you need it (tasks, scripts, tests, etc).
 
 ## TypeScript support
 
 <_This section is needed if you are extending types in your plugin_>
 
-You need to add this to your `tsconfig.json`'s `files` array: 
-`"node_modules/wighawag-buidler-ts-plugin-boilerplate/src/type-extensions.d.ts"`
+You need to add this to your `tsconfig.json`'s `files` array:
+`"node_modules/buidler-preprocessor/src/type-extensions.d.ts"`
