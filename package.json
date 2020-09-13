@@ -1,6 +1,6 @@
 {
   "name": "buidler-preprocessor",
-  "version": "0.0.1",
+  "version": "0.0.2",
   "description": "buidler plugin that can preprocess contracts without writing to filesystem",
   "repository": "github:wighawag/buidler-preprocessor",
   "author": "Ronan Sandford",

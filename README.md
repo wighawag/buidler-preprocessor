@@ -2,19 +2,19 @@
 
 # buidler-preprocessor
 
-_A one line description of the plugin_
+_This plugin allows to pre-preocess contract source code before compilation_
 
-[Buidler](http://getbuidler.com) plugin example.
+[Buidler](http://getbuidler.com) preprocessor plugin.
 
 ## What
 
-<_A longer, one paragraph, description of the plugin_>
+This plugin allow you to specify a function that is executed on every line of all contracts so that you can pre-process the code.
 
-This plugin is just an example
+A typical example (included) is to remove console.log for production ready contracts.
+
+Note that this plugin do not touch the filesystem. It happens in memory.
 
 ## Installation
-
-<_A step-by-step guide on how to install the plugin_>
 
 ```bash
 npm install buidler-preprocessor
@@ -28,59 +28,58 @@ usePlugin('buidler-preprocessor');
 
 ## Required plugins
 
-<_The list of all the required Buidler plugins if there are any_>
-
 Nothing required
 
 ## Tasks
 
-<_A description of each task added by this plugin. If it just overrides internal
-tasks, this may not be needed_>
-
-This plugin creates no additional tasks.
-<_or_>
-This plugin adds the _example_ task to Buidler:
-
-```
-output of npx buidler help example
-```
+No new tasks but it overrides the `compile` task.
 
 ## Environment extensions
 
-<_A description of each extension to the Buidler Runtime Environment_>
-
-This plugin extends the Buidler Runtime Environment by adding an `example` field
-whose type is `ExampleBuidlerRuntimeEnvironmentField`.
+No extra fields added to the envirobment.
 
 ## Configuration
 
-<_A description of each extension to the BuidlerConfig or to its fields_>
+This plugin extends the `BuidlerConfig` with one new field: `preprocess`
 
-This plugin extends the `BuidlerConfig`'s `ProjectPaths` object with an optional
-`newPath` field.
+This field is an object with a field : `eachLine` that itself is a function that accept the BRE as argument and must return either a function or a promise to a function.
 
-This is an example of how to set it:
+That function exepect a string as argument (a line of a contract) and must return a string.
+
+Note that instead of returning (or resolving a function), it is possible to return undefined to skip the preprocessing entirely.
+
+Basic example that add a comment on each line:
 
 ```js
+usePlugin('buidler-preprocessor');
 module.exports = {
-  paths: {
-    newPath: './new-path',
+  preprocess: {
+    eachLine: (bre) => (line) => line + '// comment at the end of each line',
   },
 };
 ```
 
-## Usage
+The plugin comes also with a preprocess function to remove `console.log` (achieving the same thing as this [plugin](https://github.com/ItsNickBarry/buidler-log-remover) but without changing the files )
 
-<_A description of how to use this plugin. How to use the tasks if there are any, etc._>
+You can use it as follow :
+
+```js
+usePlugin('buidler-preprocessor');
+const {removeConsoleLog} = require('buidler-preprocessor');
+module.exports = {
+  preprocess: {
+    eachLine: removeConsoleLog((bre) => bre.network.name !== 'buidlerevm' && bre.network.name !== 'localhost'),
+  },
+};
+```
+
+In this example the preprocessing do not happen when used against buidlerevm (testing) or localhost
+
+## Usage
 
 There are no additional steps you need to take for this plugin to work.
 
-Install it and access ethers through the Buidler Runtime Environment anywhere
-you need it (tasks, scripts, tests, etc).
-
 ## TypeScript support
-
-<_This section is needed if you are extending types in your plugin_>
 
 You need to add this to your `tsconfig.json`'s `files` array:
 `"node_modules/buidler-preprocessor/src/type-extensions.d.ts"`
