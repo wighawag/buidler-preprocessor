@@ -54,7 +54,7 @@ export default function (): void {
         (resolvedFile.content as any) = resolvedFile.content
           .split(/\r?\n/)
           .map((line) => {
-            const newLine = processor(line);
+            const newLine = processor(line, {absolutePath: resolvedFile.absolutePath});
             if (newLine.split(/\r?\n/).length > 1) {
               // prevent lines generated to create more line, this ensure preservation of line number while debugging
               throw new Error(`Line processor cannot create new lines. This ensures that line numbers are preserved`);
@@ -78,8 +78,8 @@ export default function (): void {
     const sourceTimestamps = dependencyGraph
       .getResolvedFiles()
       .map((file: {lastModificationDate: Date}) => file.lastModificationDate.getTime());
-    const stats = await fsExtra.stat(getUserConfigPath());
-    const lastModificationDate = new Date(stats.ctime);
+    const stats = fsExtra.statSync(getUserConfigPath());
+    const lastModificationDate = stats.ctime ? new Date(stats.ctime) : new Date();
     sourceTimestamps.push(lastModificationDate.getTime());
 
     return areArtifactsCached(sourceTimestamps, config.solc, config.paths);
